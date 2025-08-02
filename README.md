@@ -1,4 +1,4 @@
-# Project Title
+# Testing APIs (1) for The Odin Project
 
-Project Description
-coded by Enter your name / web site address
+Trying to learn how to use API
+coded by Shaunak Basu (https://github.com/basushaunak)
