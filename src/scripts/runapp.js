@@ -1,4 +1,4 @@
-function runGiphy() {
+export function runGiphy() {
   const apiKey = document.querySelector("#api-key");
   const searchPhrase = document.querySelector("#search-phrase");
   const btnGo = document.querySelector("#btn-go");
