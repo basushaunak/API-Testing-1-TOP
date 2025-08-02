@@ -42,13 +42,10 @@ html {
     margin-block: 1rem;
     width: 40%;
     margin-inline: auto;
-
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    align-items: center;
 }
 .action-btn{
-    justify-self: center;
+    margin-inline: auto;
+    display: block;
 }
 
 .random-facts-frame{
@@ -56,6 +53,7 @@ html {
     border-radius: 25px;
     width: 500PX;
     margin-inline: auto;
+    display: none;
 }
 
 .fact-heading{
@@ -91,6 +89,7 @@ html {
 
 .superimposed-text{
     z-index: 2;
+    text-align: center;
     font-size: 1.2rem;
     color: yellow;
     background-color: hsla(0, 1%, 30%,0.7);

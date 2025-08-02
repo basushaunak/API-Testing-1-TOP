@@ -3,7 +3,6 @@ function runGiphy() {
   const searchPhrase = document.querySelector("#search-phrase");
   const btnGo = document.querySelector("#btn-go");
   const prompt = document.querySelector("#prompt");
-  const btnRetry = document.querySelector("#btnRetry");
   const image = document.querySelector("#image");
   const facts = document.querySelector("#facts");
   let giphyAPIKey = "xxx";
@@ -24,22 +23,19 @@ function runGiphy() {
     request = `https://api.giphy.com/v1/gifs/translate?api_key=${giphyAPIKey}&s=${searchText}`;
     fetchImage();
   });
-  btnGo.addEventListener("click", (e) => {
-    e.preventDefault();
-  });
   function fetchImage() {
     fetch(request, { mode: "cors" })
       .then(function (response) {
         return response.json();
       })
       .then((response) => {
+        console.log(response);
         image.src = response.data.images["original"].url;
         prompt.innerText = promptText;
       })
       .catch(() => {
-        image.src="#";
-        prompt.innerText = "";
-        console.log("Unable to fetch!");
+        image.src="../assets/images/404.jpg";
+        prompt.innerText = "Unable to fetch!";
       });
   }
 }
