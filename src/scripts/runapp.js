@@ -1,0 +1,49 @@
+function runGiphy() {
+  const apiKey = document.querySelector("#api-key");
+  const searchPhrase = document.querySelector("#search-phrase");
+  const btnGo = document.querySelector("#btn-go");
+  const prompt = document.querySelector("#prompt");
+  const btnRetry = document.querySelector("#btnRetry");
+  const image = document.querySelector("#image");
+  const facts = document.querySelector("#facts");
+  let giphyAPIKey = "xxx";
+  let searchText = "";
+  let promptText = "";
+  let request = "";
+  btnGo.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (!apiKey.validity.valid) {
+      return;
+    }
+    if (!searchPhrase.validity.valid) {
+      return;
+    }
+    giphyAPIKey = apiKey.value;
+    searchText = searchPhrase.value;
+    promptText = `${searchText} powered by Giphy.com`;
+    request = `https://api.giphy.com/v1/gifs/translate?api_key=${giphyAPIKey}&s=${searchText}`;
+    fetchImage();
+  });
+  btnGo.addEventListener("click", (e) => {
+    e.preventDefault();
+  });
+  function fetchImage() {
+    fetch(request, { mode: "cors" })
+      .then(function (response) {
+        return response.json();
+      })
+      .then((response) => {
+        image.src = response.data.images["original"].url;
+        prompt.innerText = promptText;
+      })
+      .catch(() => {
+        image.src="#";
+        prompt.innerText = "";
+        console.log("Unable to fetch!");
+      });
+  }
+}
+
+window.onload = () => {
+  runGiphy();
+};

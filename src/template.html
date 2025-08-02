@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="./scripts/runapp.js"></script>
     <link rel="stylesheet" href="./css/styles.css" />
+    <script src="./scripts/runapp.js"></script>
     <title>Learning API (Giphy)</title>
   </head>
   <body>
@@ -17,20 +18,21 @@
       <div class="container">
         <div class="input-div">
           <label for="api-key">Enter API Key</label>
-          <input type="text" id="api-key" />
+          <input type="text" id="api-key" name="api-key" required/>
           <label for="search-phrase">Search Phrase</label>
-          <input type="text" id="search-phrase" />
+          <input type="text" id="search-phrase" name="search-phrase" required/>
         </div>
         <div class="buttons-div">
           <button class="action-btn" id="btn-go">Go!</button>
           <button class="action-btn" id="btn-retry">Retry</button>
         </div>
         <div class="image-frame">
-          <img src="./assets/images/me.jpg" alt="" />
+          <img id="image" src="./assets/images/me.jpg" alt="" />
+          <p id="prompt" class="superimposed-text">Powered by Giphy</p>
         </div>
         <div class="random-facts-frame">
           <h2 class="fact-heading">Fun Facts</h2>
-          <p class="random-facts">
+          <p id="facts" class="random-facts">
             Lorem ipsum, dolor sit amet consectetur adipisicing elit.
             Praesentium eos laudantium architecto dolore quos beatae maxime
             rerum aliquam ullam eum neque voluptatem, recusandae laborum
