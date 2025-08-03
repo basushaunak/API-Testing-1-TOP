@@ -31,15 +31,18 @@ export function runGiphy() {
       .then((response) => {
         console.log(response);
         image.src = response.data.images["original"].url;
+      })
+      .then(() => {
         prompt.innerText = promptText;
+        facts.innerText = getFacts();
       })
       .catch(() => {
-        image.src="../assets/images/404.jpg";
+        image.src = "../assets/images/404.jpg";
         prompt.innerText = "Unable to fetch!";
       });
   }
+  function getFacts(){
+    return "Fact/Fun/BS";
+  }
 }
 
-window.onload = () => {
-  runGiphy();
-};
