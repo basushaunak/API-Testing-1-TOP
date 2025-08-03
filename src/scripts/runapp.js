@@ -19,7 +19,7 @@ export function runGiphy() {
     }
     giphyAPIKey = apiKey.value;
     searchText = searchPhrase.value;
-    promptText = `${searchText} powered by Giphy.com`;
+    promptText = `"${searchText}"\nPowered by Giphy.com`;
     request = `https://api.giphy.com/v1/gifs/translate?api_key=${giphyAPIKey}&s=${searchText}`;
     fetchImage();
   });
