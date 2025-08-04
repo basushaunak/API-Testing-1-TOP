@@ -5,10 +5,11 @@ export function runGiphy() {
   const prompt = document.querySelector("#prompt");
   const image = document.querySelector("#image");
   const facts = document.querySelector("#facts");
+  const todayInHistory = "https://evilinsult.com/generate_insult.php?lang=en&type=json";
   let giphyAPIKey = "xxx";
   let searchText = "";
   let promptText = "";
-  let request = "";
+  let giphyRequest = "";
   btnGo.addEventListener("click", (e) => {
     e.preventDefault();
     if (!apiKey.validity.valid) {
@@ -20,11 +21,11 @@ export function runGiphy() {
     giphyAPIKey = apiKey.value;
     searchText = searchPhrase.value;
     promptText = `"${searchText}"\nPowered by Giphy.com`;
-    request = `https://api.giphy.com/v1/gifs/translate?api_key=${giphyAPIKey}&s=${searchText}`;
+    giphyRequest = `https://api.giphy.com/v1/gifs/translate?api_key=${giphyAPIKey}&s=${searchText}`;
     fetchImage();
   });
   function fetchImage() {
-    fetch(request, { mode: "cors" })
+    fetch(giphyRequest, { mode: "cors" })
       .then(function (response) {
         return response.json();
       })
@@ -42,6 +43,7 @@ export function runGiphy() {
       });
   }
   function getFacts(){
+    fetch(todayInHistory, { mode: "cors" }).then((response)=>{console.log(response)}).catch((response)=>console.log("Unable to Fetch"+response));
     return "Fact/Fun/BS";
   }
 }
