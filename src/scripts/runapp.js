@@ -5,7 +5,9 @@ export function runGiphy() {
   const prompt = document.querySelector("#prompt");
   const image = document.querySelector("#image");
   const facts = document.querySelector("#facts");
-  const todayInHistory = "https://evilinsult.com/generate_insult.php?lang=en&type=json";
+  const randomFactsFrame = document.querySelector("#random-facts-frame");
+  const newsAPIKey = prompt("Enter thenewsapi.com API Key: ");
+  const newsHeadlines = `https://api.thenewsapi.com/v1/news/top?api_token=${newsAPIKey}&locale=in&limit=3`;
   let giphyAPIKey = "xxx";
   let searchText = "";
   let promptText = "";
@@ -30,7 +32,6 @@ export function runGiphy() {
         return response.json();
       })
       .then((response) => {
-        console.log(response);
         image.src = response.data.images["original"].url;
       })
       .then(() => {
@@ -42,9 +43,17 @@ export function runGiphy() {
         prompt.innerText = "Unable to fetch!";
       });
   }
-  function getFacts(){
-    fetch(todayInHistory, { mode: "cors" }).then((response)=>{console.log(response)}).catch((response)=>console.log("Unable to Fetch"+response));
-    return "Fact/Fun/BS";
+  function getFacts() {
+    if (newsAPIKey) {
+      fetch(newsHeadlines, { mode: "cors" })
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          randomFactsFrame.classList.remove("hidden");
+        })
+        .catch((response) => console.log("Unable to Fetch" + response));
+    } else {
+      randomFactsFrame.classList.add("hidden");
+    }
   }
 }
-
