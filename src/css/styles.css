@@ -61,7 +61,6 @@ html {
   overflow: hidden;
 }
 
-
 .random-facts {
   width: 80%;
   margin-inline: auto;
@@ -75,7 +74,6 @@ html {
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
-
 }
 
 .image-frame {
@@ -124,8 +122,9 @@ html {
   border: 1px red solid;
 }
 
-
 .fact-title {
+  font-style: normal;
+  color: orange;
   font-weight: bold;
   font-size: 1rem;
 }

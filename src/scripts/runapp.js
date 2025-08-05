@@ -1,5 +1,5 @@
 export function runGiphy() {
-  const apiKey = document.querySelector("#api-key");
+  // const apiKey = document.querySelector("#api-key");
   const searchPhrase = document.querySelector("#search-phrase");
   const btnGo = document.querySelector("#btn-go");
   const prompt = document.querySelector("#prompt");
@@ -7,13 +7,11 @@ export function runGiphy() {
   //const facts = document.querySelector("#facts");
   const randomFactsFrame = document.querySelector(".random-facts-frame");
   const randomFacts = document.querySelector("#random-facts");
-  const newsAPIKey = window.prompt(
-    "Enter API Key for 'thenewsapi.com'",
-    "newsapi.com API Key",
-  );
+  const newsAPIKey = "5RNS8HHYk4nRTD5x21oBkr7lslc2x8heJrUPXVkb";
+  const giphyAPIKey = "0BZtaP7kPFxjbZZ4GwhOud6IccACVQ0R";
   let locale = "in";
-  const newsHeadlines = `https://api.thenewsapi.com/v1/news/top?api_token=${newsAPIKey}&locale=${locale}&limit=3`;
-  let giphyAPIKey = "xxx";
+  const newsHeadlines = `https://api.thenewsapi.com/v1/news/top?api_token=${newsAPIKey}&locale=${locale}&limit=10`;
+
   let searchText = "";
   let promptText = "";
   let giphyRequest = "";
@@ -21,13 +19,10 @@ export function runGiphy() {
 
   btnGo.addEventListener("click", (e) => {
     e.preventDefault();
-    if (!apiKey.validity.valid) {
-      return;
-    }
     if (!searchPhrase.validity.valid) {
       return;
     }
-    giphyAPIKey = apiKey.value;
+
     searchText = searchPhrase.value;
     promptText = `"${searchText}"\nPowered by Giphy.com`;
     giphyRequest = `https://api.giphy.com/v1/gifs/translate?api_key=${giphyAPIKey}&s=${searchText}`;
@@ -76,12 +71,12 @@ export function runGiphy() {
     }
   }
   function scrollFacts() {
-    scrollEffectOffset -= 0.25; // speed of scroll
+    scrollEffectOffset -= 0.5; // speed of scroll
     randomFacts.style.top = scrollEffectOffset + "px";
 
     // Reset when the entire paragraph has scrolled past
-    if (-scrollEffectOffset >= randomFacts.scrollEffectOffsetHeight) {
-      scrollEffectOffset = x.scrollEffectOffsetHeight; // start from bottom again
+    if (-scrollEffectOffset >= randomFacts.offsetHeight) {
+      scrollEffectOffset = randomFactsFrame.offsetHeight; // start from bottom again
     }
 
     requestAnimationFrame(scrollFacts);
