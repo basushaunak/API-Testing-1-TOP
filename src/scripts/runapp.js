@@ -4,14 +4,21 @@ export function runGiphy() {
   const btnGo = document.querySelector("#btn-go");
   const prompt = document.querySelector("#prompt");
   const image = document.querySelector("#image");
-  const facts = document.querySelector("#facts");
-  const randomFactsFrame = document.querySelector("#random-facts-frame");
-  const newsAPIKey = prompt("Enter thenewsapi.com API Key: ");
-  const newsHeadlines = `https://api.thenewsapi.com/v1/news/top?api_token=${newsAPIKey}&locale=in&limit=3`;
+  //const facts = document.querySelector("#facts");
+  const randomFactsFrame = document.querySelector(".random-facts-frame");
+  const randomFacts = document.querySelector("#random-facts");
+  const newsAPIKey = window.prompt(
+    "Enter API Key for 'thenewsapi.com'",
+    "newsapi.com API Key",
+  );
+  let locale = "in";
+  const newsHeadlines = `https://api.thenewsapi.com/v1/news/top?api_token=${newsAPIKey}&locale=${locale}&limit=3`;
   let giphyAPIKey = "xxx";
   let searchText = "";
   let promptText = "";
   let giphyRequest = "";
+  let scrollEffectOffset = 0;
+
   btnGo.addEventListener("click", (e) => {
     e.preventDefault();
     if (!apiKey.validity.valid) {
@@ -36,9 +43,10 @@ export function runGiphy() {
       })
       .then(() => {
         prompt.innerText = promptText;
-        facts.innerText = getFacts();
+        getFacts();
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         image.src = "../assets/images/404.jpg";
         prompt.innerText = "Unable to fetch!";
       });
@@ -48,12 +56,34 @@ export function runGiphy() {
       fetch(newsHeadlines, { mode: "cors" })
         .then((response) => response.json())
         .then((response) => {
-          console.log(response);
+          // console.log(response);
+          let newsArray = response.data;
+          let html = ``;
+          for (let i = 0; i < newsArray.length; i++) {
+            html += `<span class="fact-title">${newsArray[i].title}</span><br>${newsArray[i].description}<br>`;
+          }
+          randomFacts.innerHTML = html;
+          console.log(randomFacts.innerHTML);
           randomFactsFrame.classList.remove("hidden");
+          scrollFacts();
         })
-        .catch((response) => console.log("Unable to Fetch" + response));
+        .catch((response) => {
+          console.log("Unable to Fetch News" + response);
+          randomFactsFrame.classList.add("hidden");
+        });
     } else {
       randomFactsFrame.classList.add("hidden");
     }
+  }
+  function scrollFacts() {
+    scrollEffectOffset -= 0.25; // speed of scroll
+    randomFacts.style.top = scrollEffectOffset + "px";
+
+    // Reset when the entire paragraph has scrolled past
+    if (-scrollEffectOffset >= randomFacts.scrollEffectOffsetHeight) {
+      scrollEffectOffset = x.scrollEffectOffsetHeight; // start from bottom again
+    }
+
+    requestAnimationFrame(scrollFacts);
   }
 }
