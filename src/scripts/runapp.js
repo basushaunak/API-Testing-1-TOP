@@ -28,44 +28,61 @@ export function runGiphy() {
     giphyRequest = `https://api.giphy.com/v1/gifs/translate?api_key=${giphyAPIKey}&s=${searchText}`;
     fetchImage();
   });
-  function fetchImage() {
-    fetch(giphyRequest, { mode: "cors" })
-      .then(function (response) {
-        return response.json();
-      })
-      .then((response) => {
-        image.src = response.data.images["original"].url;
-      })
-      .then(() => {
-        prompt.innerText = promptText;
-        getFacts();
-      })
-      .catch((err) => {
-        console.log(err);
-        image.src = "../assets/images/404.jpg";
-        prompt.innerText = "Unable to fetch!";
-      });
+  async function fetchImage() {
+    console.log("Inside Fetch Image");
+    let responsePromise = await fetch(giphyRequest);
+    let giphyObject = await responsePromise.json();
+    if (!giphyObject.meta.status == 200) {
+      if (giphyObject.meta.status == 429) {
+        alert("You have made too many requests! Please wait upto an hour.");
+      } else {
+        alert("Unable to fetch image");
+      }
+      return;
+    }
+    console.log("giphyObject URL: ", giphyObject.data.images["original"].url);
+    let remoteImage = await fetch(giphyObject.data.images["original"].url);
+    let blob = await remoteImage.blob();
+    image.src = URL.createObjectURL(blob);
+    prompt.innerText = promptText;
+    if (randomFacts.innerText.length === 0) {
+      getFacts();
+    }
+
+    // .then(function (response) {
+    //   return response.json();
+    // })
+    // .then((response) => {
+    //   image.src = response.data.images["original"].url;
+    // })
+    // .then(() => {
+    //   prompt.innerText = promptText;
+    //   getFacts();
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    //   image.src = "../assets/images/404.jpg";
+    //   prompt.innerText = "Unable to fetch!";
+    // });
   }
-  function getFacts() {
+  async function getFacts() {
     if (newsAPIKey) {
-      fetch(newsHeadlines, { mode: "cors" })
-        .then((response) => response.json())
-        .then((response) => {
-          // console.log(response);
-          let newsArray = response.data;
-          let html = ``;
-          for (let i = 0; i < newsArray.length; i++) {
-            html += `<span class="fact-title">${newsArray[i].title}</span><br>${newsArray[i].description}<br>`;
-          }
-          randomFacts.innerHTML = html;
-          console.log(randomFacts.innerHTML);
-          randomFactsFrame.classList.remove("hidden");
-          scrollFacts();
-        })
-        .catch((response) => {
-          console.log("Unable to Fetch News" + response);
-          randomFactsFrame.classList.add("hidden");
-        });
+      try {
+        let response = await fetch(newsHeadlines, { mode: "cors" });
+        let rawData = await response.json();
+        let newsArray = rawData.data;
+        let html = ``;
+        for (let i = 0; i < newsArray.length; i++) {
+          html += `<span class="fact-title">${newsArray[i].title}</span><br>${newsArray[i].description}<br>`;
+        }
+        randomFacts.innerHTML = html;
+        console.log(randomFacts.innerHTML);
+        randomFactsFrame.classList.remove("hidden");
+        scrollFacts();
+      } catch {
+        console.log("Unable to Fetch News");
+        randomFactsFrame.classList.add("hidden");
+      }
     } else {
       randomFactsFrame.classList.add("hidden");
     }
@@ -81,4 +98,17 @@ export function runGiphy() {
 
     requestAnimationFrame(scrollFacts);
   }
+}
+
+function downloadImage(url) {
+  fetch(url)
+    .then((response) => response.blob()) // Convert the response to a Blob
+    .then((blob) => {
+      let src = URL.createObjectURL(blob); // Set the src to the Object URL
+      return src; // Append the image to the document body
+    })
+    .catch((error) => {
+      console.error("Error fetching or displaying image:", error);
+      return "#";
+    });
 }
