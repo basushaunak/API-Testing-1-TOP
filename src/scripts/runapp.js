@@ -88,7 +88,7 @@ export function runGiphy() {
     }
   }
   function scrollFacts() {
-    scrollEffectOffset -= 0.5; // speed of scroll
+    scrollEffectOffset -= 0.25; // speed of scroll
     randomFacts.style.top = scrollEffectOffset + "px";
 
     // Reset when the entire paragraph has scrolled past
