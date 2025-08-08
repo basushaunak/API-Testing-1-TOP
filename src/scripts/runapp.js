@@ -29,7 +29,6 @@ export function runGiphy() {
     fetchImage();
   });
   async function fetchImage() {
-    console.log("Inside Fetch Image");
     let responsePromise = await fetch(giphyRequest);
     let giphyObject = await responsePromise.json();
     if (!giphyObject.meta.status == 200) {
@@ -40,7 +39,6 @@ export function runGiphy() {
       }
       return;
     }
-    console.log("giphyObject URL: ", giphyObject.data.images["original"].url);
     let remoteImage = await fetch(giphyObject.data.images["original"].url);
     let blob = await remoteImage.blob();
     image.src = URL.createObjectURL(blob);
@@ -76,7 +74,6 @@ export function runGiphy() {
           html += `<span class="fact-title">${newsArray[i].title}</span><br>${newsArray[i].description}<br>`;
         }
         randomFacts.innerHTML = html;
-        console.log(randomFacts.innerHTML);
         randomFactsFrame.classList.remove("hidden");
         scrollFacts();
       } catch {
